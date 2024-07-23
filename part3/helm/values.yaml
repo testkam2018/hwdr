@@ -1,0 +1,23 @@
+moduleName: hw-app
+env: dev
+MESSAGE: "IAMALIVE"
+apptag: hw-app
+# kubernetesClusterDomain: cluster.local
+svcGeneral:
+  ports:
+    - port: 8080
+      targetPort: 3000
+  type: ClusterIP
+spec:
+  replicas: 2
+  module:
+    image:
+      repository: "kamil2024/hw"
+      tag: "0.2"
+    resources:
+      limits:
+        cpu: 100m
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 200Mi

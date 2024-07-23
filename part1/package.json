@@ -1,0 +1,20 @@
+{
+  "name": "your-app-name",
+  "version": "1.0.0",
+  "description": "Your Node.js application",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "chai-http": "^4.4.0",
+    "mocha": "^8.3.0"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "requests": "^0.3.0"
+  }
+}
