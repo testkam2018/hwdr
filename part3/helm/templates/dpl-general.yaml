@@ -36,10 +36,6 @@ spec:
       - env:
         - name: MESSAGE
           value: {{ .Values.MESSAGE }}
-        - name: ASPNETCORE_URLS
-          value: "http://*:8080"
-        - name: EnableSwagger
-          value: "true"
           # Add other environment variables as needed 
         image: {{ tpl .Values.spec.module.image.repository . }}:{{ .Values.spec.module.image.tag | default .Chart.AppVersion }}
         livenessProbe:
