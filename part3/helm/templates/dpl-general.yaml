@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-{{.Values.moduleName | lower}}
+  namespace: {{.Values.apptag | lower}}
+  labels:
+    app: {{.Values.moduleName | lower}}
+    type: Backend
+  {{- include "ch.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      app: {{.Values.moduleName | lower}}
+      type: Backend
+    {{- include "ch.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{.Values.moduleName | lower}}
+        type: Backend
+      {{- include "ch.selectorLabels" . | nindent 8 }}
+    spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        {{ if eq .Values.env "prod" }}
+        whenUnsatisfiable: DoNotSchedule
+        {{ else }}
+        whenUnsatisfiable: ScheduleAnyway
+        {{ end }}
+        labelSelector:
+          matchLabels:
+            app: {{.Values.moduleName | lower}}
+      containers:
+      - env:
+        - name: MESSAGE
+          value: {{ .Values.MESSAGE }}
+        - name: ASPNETCORE_URLS
+          value: "http://*:8080"
+        - name: EnableSwagger
+          value: "true"
+          # Add other environment variables as needed 
+        image: {{ tpl .Values.spec.module.image.repository . }}:{{ .Values.spec.module.image.tag | default .Chart.AppVersion }}
+        livenessProbe:
+          failureThreshold: 5
+          initialDelaySeconds: 55
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 3000
+          timeoutSeconds: 15
+        name: {{.Values.moduleName | lower}}
+        volumeMounts:
+          - mountPath: /tmp
+            name: temp  
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 55
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 15
+        resources: {{- toYaml .Values.spec.module.resources | nindent 10 }}
+        securityContext:
+          runAsNonRoot: true
+          privileged: false
+          runAsUser: 1828
+          #runAsGroup: 1828
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - all
+      volumes:
+        - name: temp
+          emptyDir: {} 

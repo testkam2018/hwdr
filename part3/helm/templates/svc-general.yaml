@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-{{.Values.moduleName | lower}}
+  namespace: {{.Values.apptag | lower}}
+  labels:
+  {{- include "ch.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.svcGeneral.type }}
+  selector:
+    app: {{.Values.moduleName | lower}}
+    type: Backend
+  {{- include "ch.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.svcGeneral.ports | toYaml | nindent 2 -}}
