@@ -1,6 +1,6 @@
 moduleName: hw-app
 env: dev
-MESSAGE: "IAMALIVE"
+MESSAGE: "Hello, World!"
 apptag: hw-app
 # kubernetesClusterDomain: cluster.local
 svcGeneral:
@@ -13,7 +13,7 @@ spec:
   module:
     image:
       repository: "kamil2024/hw"
-      tag: "0.2"
+      tag: "20240723174938"
     resources:
       limits:
         cpu: 100m
