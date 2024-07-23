@@ -1,4 +1,5 @@
 import http from 'http';
+
 const port = process.env.PORT || 3000; // Use environment variable for port if available
 const message = process.env.MESSAGE || "Hello World";
 
@@ -15,3 +16,5 @@ server.listen(port, '0.0.0.0', (err) => {
 
   console.log(`Server is listening on http://0.0.0.0:${port}`);
 });
+
+export default server;
