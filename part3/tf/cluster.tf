@@ -4,10 +4,24 @@ terraform {
       source  = "tehcyx/kind"
       version = "~> 0.5.1"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.9"
+    }
   }
 }
 
 provider "kind" {
+}
+provider "helm" {
+
+
+  kubernetes {
+    host                   = yamldecode(kind_cluster.default.kubeconfig)["clusters"][0].cluster.server
+    client_certificate     = base64decode(yamldecode(nonsensitive(kind_cluster.default.kubeconfig))["users"][0].user.client-certificate-data)
+    client_key             = base64decode(yamldecode(nonsensitive(kind_cluster.default.kubeconfig))["users"][0].user.client-key-data)
+    cluster_ca_certificate = base64decode(yamldecode(nonsensitive(kind_cluster.default.kubeconfig))["clusters"][0].cluster.certificate-authority-data)
+  }
 }
 
 resource "kind_cluster" "default" {

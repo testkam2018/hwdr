@@ -2,6 +2,7 @@ moduleName: hw-app
 env: dev
 MESSAGE: "Hello, World!"
 apptag: hw-app
+ngrokDomain: finch-valid-overly.ngrok-free.app
 # kubernetesClusterDomain: cluster.local
 svcGeneral:
   ports:
