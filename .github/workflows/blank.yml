@@ -44,5 +44,5 @@ jobs:
       
       - name: Build and push Docker image
         run: |
-          docker build -t $DOCKER_USERNAME/your-app-name:${{ env.TAG }} .
+          docker build -t $DOCKER_USERNAME/your-app-name:${{ env.TAG }} -f ./part1/Dockerfile ./part1
           docker push $DOCKER_USERNAME/your-app-name:${{ env.TAG }}
