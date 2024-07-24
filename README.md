@@ -3,6 +3,8 @@
 
 This repository contains a simple Node.js application that prints "Hello World!" or any other value from the `MESSAGE` environment variable. It includes a comprehensive setup for deploying the application to a Kubernetes cluster using Terraform and Helm, with Ngrok exposing the application to the outside world.
 
+Access URL : https://finch-valid-overly.ngrok-free.app
+
 ## Prerequisites
 
 1. **Docker:** Ensure Docker is installed and running on your machine.
